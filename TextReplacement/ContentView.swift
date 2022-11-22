@@ -18,8 +18,13 @@ struct ContentView: View {
                 .lineLimit(3)
             Button("replace") {
                 resultText = originText.replacingOccurrences(of: " ", with: "-")
+                #if os(macOS)
                 NSPasteboard.general.clearContents()
                 NSPasteboard.general.setString(resultText, forType: .string)
+                #elseif os(iOS)
+                UIPasteboard.general.string = resultText
+                #endif
+                
             }
             .buttonStyle(.bordered)
             TextField("result", text: $resultText)
