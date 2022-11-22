@@ -8,12 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var originText = ""
+    @State var resultText = ""
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            TextField("origin text", text: $originText)
+                .lineLimit(3)
+            Button("replace") {
+                resultText = originText.replacingOccurrences(of: " ", with: "-")
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(resultText, forType: .string)
+            }
+            .buttonStyle(.bordered)
+            TextField("result", text: $resultText)
+                
         }
         .padding()
     }
